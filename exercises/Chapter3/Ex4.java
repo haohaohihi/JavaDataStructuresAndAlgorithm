@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public class Ex4 {
-    public static <E extends Comparable<? super E>> void printIntersectionOfSortedList(List<E> L1, List<E> L2, List<E> result){
+    public static <E extends Comparable<? super E>> void getIntersectionOfSortedList(List<E> L1, List<E> L2, List<E> result){
         Iterator<E> iter1 = L1.iterator();
         Iterator<E> iter2 = L2.iterator();
         E item1 = null, item2 = null;
@@ -39,7 +39,7 @@ public class Ex4 {
         ArrayList<Integer> L1 = new ArrayList<>(Arrays.asList(  2, 7, 9, 10));
         ArrayList<Integer> L2 = new ArrayList<>(Arrays.asList(0, 2, 4, 7, 8, 10, 14));
         ArrayList<Integer> result = new ArrayList<>();
-        printIntersectionOfSortedList(L1, L2, result);
+        getIntersectionOfSortedList(L1, L2, result);
         System.out.println(result);
     }
 }
