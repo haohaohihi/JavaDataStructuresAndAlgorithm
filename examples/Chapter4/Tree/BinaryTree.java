@@ -1,5 +1,9 @@
 package Chapter4.Tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  * Created by haohao on 2018/4/15.
  */
@@ -15,6 +19,24 @@ public class BinaryTree {
     }
 
     /*
+    使用非递归进行 前序遍历
+     */
+    public static void preOrder1(BinaryNode<Integer> t) {
+        Stack<BinaryNode<Integer>> stack = new Stack<>();
+        while (t != null || !stack.isEmpty()) {
+            while (t != null) {
+                System.out.print(t.element + " ");
+                stack.push(t);
+                t = t.left;
+            }
+            if (!stack.isEmpty()) {
+                t = stack.pop();
+                t = t.right;
+            }
+        }
+    }
+
+    /*
     使用递归进行 中序遍历
      */
     public static void midOrder(BinaryNode<Integer> t) {
@@ -25,6 +47,24 @@ public class BinaryTree {
     }
 
     /*
+    使用非递归进行 中序遍历
+     */
+    public static void midOrder1(BinaryNode<Integer> t) {
+        Stack<BinaryNode<Integer>> stack = new Stack<>();
+        while (t != null || !stack.empty()) {
+            while (t != null) {
+                stack.push(t);
+                t = t.left;
+            }
+            if (!stack.empty()) {
+                t = stack.pop();
+                System.out.print(t.element + " ");
+                t = t.right;
+            }
+        }
+    }
+
+    /*
     使用递归进行 后序遍历
      */
     public static void posOrder(BinaryNode<Integer> t) {
@@ -32,6 +72,31 @@ public class BinaryTree {
         posOrder(t.left);
         posOrder(t.right);
         System.out.print(t.element + " ");
+    }
+
+    /*
+    使用非递归进行后序遍历
+     */
+    public static void posOrder1(BinaryNode<Integer> t) {
+        Stack<BinaryNode<Integer>> stack = new Stack<>();
+        Stack<Integer> temp = new Stack<>();
+        int i = 1;
+        while (t != null || !stack.empty()) {
+            while (t != null) {
+                stack.push(t);
+                temp.push(0);
+                t = t.left;
+            }
+            while (!stack.empty() && temp.peek() == i) {
+                temp.pop();
+                System.out.print(stack.pop().element + " ");
+            }
+            if (!stack.empty()) {
+                temp.pop();
+                temp.push(i);
+                t = stack.peek().right;
+            }
+        }
     }
 
     /*
@@ -67,6 +132,25 @@ public class BinaryTree {
         return Math.max(l, r) + 1;
     }
 
+    public static void levelOrder1(BinaryNode<Integer> t) {
+        if (t == null) {
+            return;
+        }
+        BinaryNode<Integer> node;
+        Queue<BinaryNode<Integer>> queue = new LinkedList<>();
+        queue.offer(t);
+        while (!queue.isEmpty()) {
+            node = queue.poll();
+            System.out.print(node.element + " ");
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         BinaryNode<Integer> root = new BinaryNode<Integer>(1, null, null);
         root.left = new BinaryNode<Integer>(
@@ -85,19 +169,36 @@ public class BinaryTree {
         System.out.println("使用递归进行前序遍历");
         preOrder(root);
         System.out.println();
+        System.out.println("使用非递归进行前序遍历");
+        preOrder1(root);
+        System.out.println();
+        System.out.println("---------------------------------------------------");
 
         System.out.println("使用递归进行中序遍历");
         midOrder(root);
         System.out.println();
+        System.out.println("使用非递归进行中序遍历");
+        midOrder1(root);
+        System.out.println();
+        System.out.println("---------------------------------------------------");
+
 
         System.out.println("使用递归进行后序遍历");
         posOrder(root);
         System.out.println();
+        System.out.println("使用非递归进行后序遍历");
+        posOrder1(root);
+        System.out.println();
+        System.out.println("---------------------------------------------------");
 
         System.out.println(depth(root));
 
         System.out.println("使用递归进行层序遍历");
         levelOrder(root);
+        System.out.println();
+
+        System.out.println("使用非递归进行层序遍历");
+        levelOrder1(root);
         System.out.println();
     }
 }
